@@ -20,7 +20,7 @@ router.post('/signup', (req, res, next) => {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if(err) {
                         return res.status(500).json({
-                            error: err    
+                            error: err
                         });
                     } else {
                         const user = new User({
@@ -70,15 +70,16 @@ router.post("/login", (req, res, next) => {
                     const token = jwt.sign({
                         email: user[0].email,
                         userId: user[0]._id
-                    }, 
-                    "bismillah", 
+                    },
+                    "bismillah",
                     {
-                        expiresIn: "1h"    
+                        expiresIn: "1h"
                     },
                 );
                     return res.status(200).json({
                         message: 'Auth successful',
-                        token: token
+                        token: token,
+                        userId : user[0]._id
                     });
                 }
                 res.status(401).json({
