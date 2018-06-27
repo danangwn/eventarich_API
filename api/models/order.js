@@ -5,10 +5,6 @@ const OrderSchema = mongoose.Schema({
 
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
 
-    category_name:{
-        type : String, ref :'Category'
-    },
-
     date: {
         type: Date
     },
