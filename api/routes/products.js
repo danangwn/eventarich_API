@@ -34,7 +34,7 @@ const upload = multer({
 });
 
 
-const Product = require('../models/products');
+// const Product = require('../models/products');
 
 //Routesnya /products
 router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {

@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var mongo = require('mongodb');
 
-const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
+// const productRoutes = require('./api/routes/products');
+// const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/users');
 
 mongoose.connect('mongodb://localhost/eventarich_me');
