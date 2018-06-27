@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const checkAuth = require('../middleware/checkauth');
 
 //-----------Sign Up-----------//
 
@@ -86,6 +87,41 @@ router.post("/login", (req, res, next) => {
                     message: 'Auth failed'
                 });
             });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+
+router.get('/', checkAuth, (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decode = jwt.verify(token, "bismillah");
+  const userId = decode.userId;
+    User.find({_id : userId})
+        // .populate('userId', 'name')
+        .select('')
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                events: docs.map(doc => {
+                    return {
+                        email: doc.email,
+                        name: doc.name,
+                        address: doc.address,
+                        phone_number: doc.phone_number,
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:3000/events/" + doc._id
+                        }
+                    }
+                })
+            };
+            res.status(200).json(response);
         })
         .catch(err => {
             console.log(err);
