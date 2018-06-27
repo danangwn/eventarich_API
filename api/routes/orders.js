@@ -4,6 +4,7 @@ const mongoose = require('mongoose');   //Generate ID
 const checkAuth = require('../middleware/checkauth');
 const Order = require('../models/order');
 const Category = require('../models/category');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 // Routesnya /orders
 
@@ -82,7 +83,10 @@ Date.prototype.addHours = function(h){
 //         });
 // });
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decode = jwt.verify(token, "bismillah");
+
     Category.findById(req.body.categoryId)
         .then(category => {
             if(!category) {
@@ -97,7 +101,8 @@ router.post('/', (req, res, next) => {
                 budget: req.body.budget,
                 address : req.body.address,
                 description: req.body.description,
-                category: req.body.categoryId
+                category: req.body.categoryId,
+                userId : decode.userId
             });
             return order.save();
         })
@@ -112,6 +117,7 @@ router.post('/', (req, res, next) => {
                 address: result.address,
                 description: result.description,
                 _id: result._id,
+                userId: result.userId,
                 },
                 request: {
                     type : "GET",

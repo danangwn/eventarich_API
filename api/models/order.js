@@ -9,14 +9,14 @@ const OrderSchema = mongoose.Schema({
         type : String, ref :'Category'
     },
 
-    date: { 
+    date: {
         type: Date
     },
 
     date_created : {
         type: Date
     },
-    
+
     description: {
         type: String
     },
@@ -28,6 +28,10 @@ const OrderSchema = mongoose.Schema({
 
     budget: {
         type: Number
+    },
+
+    userId: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     }
 
 });

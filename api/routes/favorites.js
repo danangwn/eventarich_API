@@ -28,7 +28,9 @@ const jwt = require('jsonwebtoken');
 //
 // })
 
-router.post('/', (req, res, next) => {
+router.post('/' , (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decode = jwt.verify(token, "bismillah");
     Event.findById(req.body.eventId)
         .then(event => {
             if(!event) {
@@ -39,10 +41,19 @@ router.post('/', (req, res, next) => {
             const favorite = new Favorite ({
                 _id: mongoose.Types.ObjectId(),
                 time : new Date().addHours(7),
-                event_id: req.body.eventId
-                // userId: decode.userId
+                event_id: req.body.eventId,
+                userId: decode.userId
             });
             return favorite.save();
+        })
+        .then(result => {
+            res.status(201).json({
+                message: "Favorited",
+                request: {
+                    type : "GET",
+                    url: 'http://localhost:3000/orders/' + result._id
+                }
+            });
         })
         .catch(err => {
             console.log(err);

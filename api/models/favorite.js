@@ -5,9 +5,9 @@ const FavoriteSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 
     event_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },
-    // userId: {
-    //     type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
-    // },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
+    },
 
     time: {
         type: Date,
