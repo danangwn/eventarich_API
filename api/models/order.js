@@ -2,23 +2,21 @@ const mongoose = require('mongoose');
 
 const OrderSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+
+    category_name:{
+        type : String, ref :'Category'
     },
 
-    // butuh diliat enaknya pake types object atau increment number aja
-    category_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Category', 
-        required: true 
+    date: {
+        type: Date
     },
-    
-    date: { 
-        type: Date 
+
+    date_created : {
+        type: Date
     },
-    
+
     description: {
         type: String
     },
@@ -27,14 +25,13 @@ const OrderSchema = mongoose.Schema({
         type: String
     },
 
-    user_phone_number: {
-        type: String,
-        min: 11,
-        max: 12
-    },
 
     budget: {
         type: Number
+    },
+
+    userId: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     }
 
 });

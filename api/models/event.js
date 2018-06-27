@@ -3,20 +3,12 @@ const mongoose = require('mongoose');
 const EventSchema = mongoose.Schema({
     // butuh diliat enaknya pake types object atau increment number aja
     _id: mongoose.Schema.Types.ObjectId,
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
+
+    //userId: { type: String, ref: 'User', required: true },
 
     title: {
         type: String,
         max: 60,
-        required: true     
-    },
-
-    picture: {
-        type: String,
         required: true
     },
 
@@ -33,6 +25,33 @@ const EventSchema = mongoose.Schema({
     description: {
         type: String
     },
+
+    event_image: {
+      type: String,
+      required: true
+    },
+
+    province: {
+      type: String,
+      required: true
+    },
+
+    city: {
+      type: String,
+      required: true
+    },
+
+    address: {
+      type: String
+    },
+
+    link: {
+      type: String,
+      required: true
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
+    }
 
 });
 
