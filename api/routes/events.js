@@ -99,8 +99,11 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
         });
 });
 
-router.get('/', (req, res, next) => {
-    Event.find()
+router.get('/', checkAuth, (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decode = jwt.verify(token, "bismillah");
+  const userId = decode.userId;
+    Event.find({userId : userId})
         .populate('userId', 'name')
         .select('')
         .exec()
@@ -163,8 +166,10 @@ router.get('/:eventId', (req, res, next) => {
         });
 });
 
-router.get('/user/:userId', checkAuth, (req, res, next) => {
-    Event.find({userId : req.params.userId})
+
+router.post('/search', (req, res, next) => {
+    var title = req.body.title;
+    Event.find({title : title})
         .select('')
         .exec()
         .then(doc => {
@@ -199,6 +204,56 @@ router.patch('/edit/:eventId', checkAuth, (req, res, next) => {
         .then(result => {
             res.status(200).json({
                 message: "Event updated",
+                request: {
+                    type: "PATCH",
+                    url: "http://localhost:3000/events" + id
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.patch('/accept/:eventId', checkAuth, (req, res, next) => {
+    const id = req.params.eventId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+    Event.update({ _id: id }, { $set: {status : "Accept"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Event Accepted",
+                request: {
+                    type: "PATCH",
+                    url: "http://localhost:3000/events" + id
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.patch('/reject/:eventId', checkAuth, (req, res, next) => {
+    const id = req.params.eventId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+    Event.update({ _id: id }, { $set: {status : "Rejected"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Event Rejected",
                 request: {
                     type: "PATCH",
                     url: "http://localhost:3000/events" + id
