@@ -99,11 +99,49 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
         });
 });
 
-router.get('/', checkAuth, (req, res, next) => {
+router.get('/user', checkAuth, (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
     Event.find({userId : userId})
+        .populate('userId', 'name')
+        .select('')
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                events: docs.map(doc => {
+                    return {
+                        title: doc.title,
+                        date_create: doc.date_create,
+                        date_event: doc.date_event,
+                        description: doc.description,
+                        event_image: doc.event_image,
+                        _id: doc._id,
+                        province: doc.province,
+                        city: doc.city,
+                        address: doc.address,
+                        link: doc.link,
+                        userId: doc.userId,
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:3000/events/" + doc._id
+                        }
+                    }
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.get('/', (req, res, next) => {
+    Event.find()
         .populate('userId', 'name')
         .select('')
         .exec()
