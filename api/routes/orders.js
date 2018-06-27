@@ -9,7 +9,10 @@ const jwt = require('jsonwebtoken');
 // Routesnya /orders
 
 router.get('/', checkAuth, (req, res, next) => {
-    Order.find()
+  const token = req.headers.authorization.split(" ")[1];
+  const decode = jwt.verify(token, "bismillah");
+  const userId = decode.userId
+    Order.find({userId : userId})
         .select('category date budget address description _id')
         .populate('category', 'name')
         .exec()
@@ -43,6 +46,8 @@ Date.prototype.addHours = function(h){
     this.setHours(this.getHours()+h);
     return this;
 }
+
+
 
 // router.post('/',  (req, res, next) => {
 //     const order = new Order({
@@ -132,6 +137,33 @@ router.post('/', checkAuth, (req, res, next) => {
             });
         });
 });
+
+// router.get('/user', checkAuth, (req, res, next) => {
+//   const token = req.headers.authorization.split(" ")[1];
+//   const decode = jwt.verify(token, "bismillah");
+//   const userId = decode.userId
+//     Order.find({userId : userId})
+//         .exec()
+//         .then(order => {
+//             if(!order) {
+//                 return res.status(404).json({
+//                     message: "Order not Found"
+//                 });
+//             }
+//             res.status(200).json({
+//                 order: order,
+//                 request: {
+//                     type: 'GET',
+//                     url: 'http://localhost:3000/orders'
+//                 }
+//             });
+//         })
+//         .catch(err => {
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 router.get('/:orderId', checkAuth, (req, res, next) => {
     Order.findById(req.params.orderId)
