@@ -36,6 +36,7 @@ const upload = multer({
 
 
 const Event = require('../models/event');
+const Categoryevent = require('../models/categoryevent');
 // var date_create = Date.now();
 var today = new Date();
 var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -57,12 +58,12 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
         date_event: req.body.date,
         description: req.body.description,
         event_image: req.file.path,
-        province: req.body.province,
+        // province: req.body.province,
         city: req.body.city,
-        address: req.body.address,
-        link: req.body.link,
-        userId: decode.userId
-        //userId: name
+        // address: req.body.address,
+        // link: req.body.link,
+        userId: decode.userId,
+        categoryevent: req.body.categoryevent
 
     });
 
@@ -79,11 +80,12 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
                     description: result.description,
                     event_image: result.event_image,
                     _id: result._id,
-                    province: result.province,
+                    // province: result.province,
                     city: result.city,
-                    address: result.address,
-                    link: result.link,
+                    // address: result.address,
+                    // link: result.link,
                     userId: result.userId,
+                    categoryevent: result.categoryevent,
                     request: {
                         type: 'GET',
                         url: "http://localhost:3000/events/" + result._id
@@ -105,6 +107,7 @@ router.get('/user', checkAuth, (req, res, next) => {
   const userId = decode.userId;
     Event.find({userId : userId})
         .populate('userId', 'name')
+        .populate('categoryevent', 'name')
         .select('')
         .exec()
         .then(docs => {
@@ -118,11 +121,12 @@ router.get('/user', checkAuth, (req, res, next) => {
                         description: doc.description,
                         event_image: doc.event_image,
                         _id: doc._id,
-                        province: doc.province,
+                        // province: doc.province,
                         city: doc.city,
-                        address: doc.address,
-                        link: doc.link,
+                        // address: doc.address,
+                        // link: doc.link,
                         userId: doc.userId,
+                        categoryevent: doc.categoryevent,
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/events/" + doc._id
@@ -143,6 +147,7 @@ router.get('/user', checkAuth, (req, res, next) => {
 router.get('/', (req, res, next) => {
     Event.find()
         .populate('userId', 'name')
+        .populate('categoryevent', 'name')
         .select('')
         .exec()
         .then(docs => {
@@ -156,11 +161,12 @@ router.get('/', (req, res, next) => {
                         description: doc.description,
                         event_image: doc.event_image,
                         _id: doc._id,
-                        province: doc.province,
+                        // province: doc.province,
                         city: doc.city,
-                        address: doc.address,
-                        link: doc.link,
+                        // address: doc.address,
+                        // link: doc.link,
                         userId: doc.userId,
+                        categoryevent: doc.categoryevent,
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/events/" + doc._id
@@ -181,6 +187,8 @@ router.get('/', (req, res, next) => {
 router.get('/:eventId', (req, res, next) => {
     const id = req.params.eventId;
     Event.findById(id)
+        .populate('userId', 'name')
+        .populate('categoryevent', 'name')
         .select('')
         .exec()
         .then(doc => {
@@ -208,6 +216,8 @@ router.get('/:eventId', (req, res, next) => {
 router.post('/search', (req, res, next) => {
     var title = req.body.title;
     Event.find({title : title})
+        .populate('userId', 'name')
+        .populate('categoryevent', 'name')
         .select('')
         .exec()
         .then(doc => {

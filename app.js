@@ -10,6 +10,7 @@ const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/users');
 const eventRoutes = require('./api/routes/events');
 const favoriteRoutes = require('./api/routes/favorites');
+const categoryeventRoutes = require('./api/routes/categoryevents');
 
 mongoose.connect('mongodb://localhost/eventarich_me');
 mongoose.Promise = global.Promise;
@@ -26,6 +27,7 @@ app.use('/orders', orderRoutes); //Middleware
 app.use('/events', eventRoutes);
 app.use('/users', userRoutes); //Middleware
 app.use('/favorites', favoriteRoutes);
+app.use('/categoryevents', categoryeventRoutes);
 
 
 app.use((req, res, next) => {
