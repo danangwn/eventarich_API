@@ -229,6 +229,56 @@ router.get('/category/:categoryId', checkAuth, (req, res, next) => {
 //             });
 
 
+router.patch('/accept/:orderId', checkAuth, (req, res, next) => {
+    const id = req.params.orderId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+    Event.update({ _id: id }, { $set: {status : "Accept"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Order Accepted",
+                request: {
+                    type: "PATCH",
+                    url: "http://localhost:3000/events" + id
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.patch('/reject/:orderId', checkAuth, (req, res, next) => {
+    const id = req.params.orderId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+    Event.update({ _id: id }, { $set: {status : "Rejected"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Order Rejected",
+                request: {
+                    type: "PATCH",
+                    url: "http://localhost:3000/events" + id
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
 router.delete('/:orderId', checkAuth, (req, res, next) => {
     Order.remove({ _id: req.params.orderId })
     .exec()
