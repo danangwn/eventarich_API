@@ -31,24 +31,15 @@ const EventSchema = mongoose.Schema({
       required: true
     },
 
-    province: {
-      type: String,
-      required: true
-    },
-
     city: {
       type: String,
       required: true
     },
 
-    address: {
-      type: String
-    },
-
-    link: {
-      type: String,
-      required: true
-    },
+    // link: {
+    //   type: String,
+    //   required: true
+    // },
     userId: {
       type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     },
@@ -56,6 +47,10 @@ const EventSchema = mongoose.Schema({
     status: {
       type: String,
       default: "waiting admin's confirmation.."
+    },
+
+    categoryevent: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'Categoryevent', required: true
     }
 
 });
