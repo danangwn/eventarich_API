@@ -15,6 +15,22 @@ const categoryeventRoutes = require('./api/routes/categoryevents');
 mongoose.connect('mongodb://localhost/eventarich_me');
 mongoose.Promise = global.Promise;
 
+var request = require('request');
+app.set('view engine', 'ejs');
+// app.get('/', (req, res) => {
+//     res.render('home', { user: req.user });
+// });
+
+app.get('/', (req, res) => {
+    request.get('http://localhost:3000/orders/5b341b612d85fe2784086bfe', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            res.render('home', {data: data});
+        }
+    });
+});
+
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: false}));
