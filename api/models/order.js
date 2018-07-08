@@ -26,6 +26,11 @@ const OrderSchema = mongoose.Schema({
         type: Number
     },
 
+    status: {
+      type: String,
+      default: "waiting admin's confirmation.."
+    },
+
     userId: {
       type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     }
