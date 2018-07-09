@@ -72,10 +72,7 @@ router.post("/login", (req, res, next) => {
                         email: user[0].email,
                         userId: user[0]._id
                     },
-                    "bismillah",
-                    {
-                        expiresIn: "1h"
-                    }
+                    "bismillah"
                 );
                     return res.status(200).json({
                         message: 'Auth successful',
@@ -110,6 +107,7 @@ router.get('/', checkAuth, (req, res, next) => {
                 count: docs.length,
                 events: docs.map(doc => {
                     return {
+                        _id: doc._id,
                         email: doc.email,
                         name: doc.name,
                         address: doc.address,
