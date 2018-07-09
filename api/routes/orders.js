@@ -165,8 +165,8 @@ router.post('/', checkAuth, (req, res, next) => {
 //         });
 // });
 
-router.get('/:orderId',  (req, res, next) => {
-    // checkAuth
+router.get('/:orderId', checkAuth, (req, res, next) => {
+
     Order.findById(req.params.orderId)
         .populate('category', 'name')
         .exec()
