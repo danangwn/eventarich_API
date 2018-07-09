@@ -1,5 +1,5 @@
 module.exports = {
         mongodb: {
-            dbURI: 'mongodb://eventarichtest:eventarich@ds115110.mlab.com:15110/eventarich_dbtest'
+            dbURI: 'mongodb://eventarich:eventarich11@ds131711.mlab.com:31711/eventarich_me'
         }
 };
