@@ -36,7 +36,7 @@ router.post('/',  (req, res, next) => {
 
 
 router.get('/', (req, res, next) => {
-    Order.find()
+    Category.find()
         .select('name _id')
         .exec()
         .then(docs => {

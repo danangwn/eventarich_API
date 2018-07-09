@@ -95,7 +95,7 @@
                 </div>
               </li>
             </ul>
-          </li> 
+          </li>
         </ul>
       </div>
     </nav>
@@ -175,57 +175,23 @@
                 </tr>
                 </thead>
                 <tbody>
+                <% for(var i=0; i < data.orders.length; i++) { %>
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>10-27-2018</td>
-                  <td> 10-28-2019</td>
-                  <td>Seru</td>
-                  <td>Balebaks</td>
-                  <td>20000</td>
-                  <td><span class="label label-warning">Pending</span></td>
+                  <td><%- data.orders[i]._id %></td>
+                  <td><%- data.orders[i].category.name %></td>
+                  <td><%- data.orders[i].date %></td>
+                  <td><%- data.orders[i].date_created %></td>
+                  <td><%- data.orders[i].description %></td>
+                  <td><%- data.orders[i].address %></td>
+                  <td><%- data.orders[i].budget %></td>
+                  <td><span class="label label-warning"><%- data.orders[i].status %></span></td>
                   <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
                 Accept
               </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
                 Reject
               </button></td>
                 </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>10-27-2018</td>
-                  <td> 10-28-2019</td>
-                  <td>Seru</td>
-                  <td>Balebaks</td>
-                  <td>20000</td>
-                  <td><span class="label label-success">Approved</span></td>
-                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
-                Accept
-              </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
-                Reject
-              </button></td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>10-27-2018</td>
-                  <td> 10-28-2019</td>
-                  <td>Seru</td>
-                  <td>Balebaks</td>
-                  <td>20000</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
-                Accept
-              </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
-                Reject
-              </button></td>
-                </tr>
+                <% } %>
                 </tbody>
                 <tfoot>
                 <tr>
