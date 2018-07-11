@@ -14,10 +14,10 @@ const favoriteRoutes = require('./api/routes/favorites');
 const categoryeventRoutes = require('./api/routes/categoryevents');
 const adminRoutes = require('./api/routes/admins');
 
-// mongoose.connect('mongodb://localhost/eventarich_me');
-mongoose.connect(keys.mongodb.dbURI, () => {
-    console.log('connected to mongodb');
-});
+mongoose.connect('mongodb://localhost/eventarich_me');
+// mongoose.connect(keys.mongodb.dbURI, () => {
+//     console.log('connected to mongodb');
+// });
 // mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost/eventarich_me');
 // mongoose.connect('mongodb://127.0.0.1:27017');
@@ -31,8 +31,8 @@ app.set('view engine', 'ejs');
 // });
 
 //SEMENTARA ADMIN NITIP DISINI
-app.get('/orders', (req, res) => {
-    request.get('http://localhost:3000/admins/orders/', function(err, response, body) {
+app.get('/admin/orders', (req, res) => {
+    request.get('http://localhost:3000/orders/', function(err, response, body) {
         if (!err && response.statusCode == 200) {
             var locals = body ;// console.log(data);
             var data = JSON.parse(locals);
@@ -42,16 +42,16 @@ app.get('/orders', (req, res) => {
     });
 });
 
-app.get('/events', (req, res) => {
-    request.get('http://localhost:3000/admins/events/', function(err, response, body) {
-        if (!err && response.statusCode == 200) {
-            var locals = body ;// console.log(data);
-            var data = JSON.parse(locals);
-            console.log(data);
-            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events', {data: data});
-        }
-    });
-});
+// app.get('/events', (req, res) => {
+//     request.get('http://localhost:3000/admins/events/', function(err, response, body) {
+//         if (!err && response.statusCode == 200) {
+//             var locals = body ;// console.log(data);
+//             var data = JSON.parse(locals);
+//             console.log(data);
+//             res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events', {data: data});
+//         }
+//     });
+// });
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
