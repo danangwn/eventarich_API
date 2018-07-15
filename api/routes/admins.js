@@ -271,25 +271,25 @@ router.get('/users', (req, res, next) => {
         });
 });
 
-router.post('/users/delete/:userId', (req, res, next) => {
-    const id = req.params.userId;
-    User.update({ _id: id }, { $set: {status : "0"} })
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: "User Deactivated",
-                // request: {
-                //     type: "PATCH",
-                //     url: "http://localhost:3000/users" + id
-                // }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+// router.post('/users/delete/:userId', (req, res, next) => {
+//     const id = req.params.userId;
+//     User.update({ _id: id }, { $set: {status : "0"} })
+//         .exec()
+//         .then(result => {
+//             res.status(200).json({
+//                 message: "User Deactivated",
+//                 // request: {
+//                 //     type: "PATCH",
+//                 //     url: "http://localhost:3000/users" + id
+//                 // }
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 module.exports = router;
