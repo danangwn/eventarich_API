@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const checkAuth = require('../middleware/checkauth');
 
 //-----------Sign Up-----------//
-
 router.post('/signup', (req, res, next) => {
     User.find({email: req.body.email})
         .exec()
@@ -93,7 +92,7 @@ router.post("/login", (req, res, next) => {
         });
 });
 
-
+//Get User
 router.get('/', checkAuth, (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decode = jwt.verify(token, "bismillah");
@@ -114,7 +113,7 @@ router.get('/', checkAuth, (req, res, next) => {
                         phone_number: doc.phone_number,
                         request: {
                             type: "GET",
-                            url: "http://localhost:3000/events/" + doc._id
+                            url: "http://localhost:3000/users/" + doc._id
                         }
                     }
                 })
@@ -129,22 +128,46 @@ router.get('/', checkAuth, (req, res, next) => {
         });
 });
 
-//-----------USERS CRUD-----------//
+//Edit Profile
 
-router.delete('/:userId', (req, res, next) => {
-    User.remove({ _id: req.params.userId })
-        .exec()
-        .then(res => {
-            res.status(200).json({
-                message: "User deleted"
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+
+
+
+// router.patch('/delete/:userId', checkAuth, (req, res, next) => {
+//     const id = req.params.userId;
+//     User.update({ _id: id }, { $set: {status : "0"} })
+//         .exec()
+//         .then(result => {
+//             res.status(200).json({
+//                 message: "User Deactivated",
+//                 request: {
+//                     type: "PATCH",
+//                     url: "http://localhost:3000/users" + id
+//                 }
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
+
+// router.delete('/:userId', (req, res, next) => {
+//     User.remove({ _id: req.params.userId })
+//         .exec()
+//         .then(res => {
+//             res.status(200).json({
+//                 message: "User deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 module.exports = router;

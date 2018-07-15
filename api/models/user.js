@@ -26,7 +26,12 @@ const UserSchema = mongoose.Schema({
 	  phone_number: {
 		    type: String,
         require: true
-	  }
+	  },
+
+    status: {
+      type: String,
+      default: "1"
+    }
 });
 
 module.exports = mongoose.model('User', UserSchema);

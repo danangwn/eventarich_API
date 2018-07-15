@@ -14,25 +14,29 @@ const favoriteRoutes = require('./api/routes/favorites');
 const categoryeventRoutes = require('./api/routes/categoryevents');
 const adminRoutes = require('./api/routes/admins');
 
-mongoose.connect('mongodb://localhost/eventarich_me');
-// mongoose.connect(keys.mongodb.dbURI, () => {
-//     console.log('connected to mongodb');
-// });
-// mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost/eventarich_me');
-// mongoose.connect('mongodb://127.0.0.1:27017');
+// // mongoose.connect(keys.mongodb.dbURI, () => {
+// //     console.log('connected to mongodb');
+// // });
+// // mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://127.0.0.1:27017');
+mongoose.connect('mongodb://localhost/eventarich_me');
 mongoose.Promise = global.Promise;
 
 var request = require('request');
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
-// app.get('/events', (req, res) => {
-//     res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/orders');
-// });
+
 
 //SEMENTARA ADMIN NITIP DISINI
+app.get('/admin', (req, res) => {
+    res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index');
+});
+
 app.get('/admin/orders', (req, res) => {
-    request.get('http://localhost:3000/orders/', function(err, response, body) {
+    request.get('http://localhost:3000/admins/orders/', function(err, response, body) {
         if (!err && response.statusCode == 200) {
             var locals = body ;// console.log(data);
             var data = JSON.parse(locals);
@@ -42,16 +46,40 @@ app.get('/admin/orders', (req, res) => {
     });
 });
 
-// app.get('/events', (req, res) => {
-//     request.get('http://localhost:3000/admins/events/', function(err, response, body) {
-//         if (!err && response.statusCode == 200) {
-//             var locals = body ;// console.log(data);
-//             var data = JSON.parse(locals);
-//             console.log(data);
-//             res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events', {data: data});
-//         }
-//     });
-// });
+app.get('/admin/events', (req, res) => {
+    request.get('http://localhost:3000/admins/events/', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            console.log(data);
+            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events', {data: data});
+        }
+    });
+});
+
+app.get('/admin/users', (req, res) => {
+    request.get('http://localhost:3000/admins/users/', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            console.log(data);
+            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/users', {data: data});
+        }
+    });
+});
+
+app.get('/admin/users/:id', (req, res) => {
+    var id = req.params.id;
+    console.log(id);
+    request.post('http://localhost:3000/admins/users/delete/:id', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            console.log(data);
+            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/users', {data: data});
+        }
+    });
+});
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
