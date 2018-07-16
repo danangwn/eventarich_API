@@ -30,10 +30,12 @@ app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
 
 
+
 //SEMENTARA ADMIN NITIP DISINI
 app.get('/admin', (req, res) => {
     res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index');
 });
+
 
 app.get('/admin/orders', (req, res) => {
     request.get('http://localhost:3000/admins/orders/', function(err, response, body) {
