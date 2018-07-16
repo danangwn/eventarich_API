@@ -32,8 +32,41 @@ app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
 
 //SEMENTARA ADMIN NITIP DISINI
-app.get('/admin', (req, res) => {
-    res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index');
+
+
+app.get('/admin', (req, res) => {  
+function getRequest(url) {
+    return new Promise(function (success, failure) {
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                success(body);
+            } else {
+                failure(error);
+            }
+        });
+    });
+}
+
+getRequest('http://localhost:3000/admins/orders/').then(function (body1) {
+    // do something with body1
+            var locals1 = body1 ;// console.log(data);
+            var data1 = JSON.parse(locals1);
+            console.log(data1);
+    return getRequest('http://localhost:3000/admins/events/');
+}).then(function (body2) {
+            var locals2 = body2 ;// console.log(data);
+            var data2 = JSON.parse(locals2);
+            console.log(data2);
+    // do something with body2
+    return getRequest('http://localhost:3000/admins/users/');
+}).then(function (body3) {
+            var locals3 = body3 ;// console.log(data);
+            var data3 = JSON.parse(locals3);
+            console.log(data3);
+    // do something with body3
+    //And so on...
+});
+  res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index', {data1: data1,data2:data2,data3:data3});
 });
 
 
