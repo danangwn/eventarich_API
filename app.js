@@ -44,11 +44,13 @@ function get(url) {
 
 app.get('/admin', (req, res) => {
   Promise.all([
+    get('http://localhost:3000/admins/orders/new'),
     get('http://localhost:3000/admins/orders/'),
     get('http://localhost:3000/admins/events/'),
     get('http://localhost:3000/admins/users/'),
-  ]).then(([orders, events, users]) =>
+  ]).then(([neworders, orders, events, users]) =>
     res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index',{
+      neworders : neworders.count,
       orders: orders.count,
       events : events.count,
       users : users.count

@@ -47,6 +47,41 @@ router.get('/orders', (req, res, next) => {
         });
 });
 
+router.get('/orders/new', (req, res, next) => {
+    Order.find({status : "Waiting"})
+        .populate('category', 'name')
+        .populate('userId', 'name')
+        .exec()
+        .then(docs => {
+            res.status(200).json({
+                count: docs.length,
+                neworders: docs.map(doc => {
+                    return {
+                        _id: doc._id,
+                        category: doc.category,
+                        date: doc.date,
+                        date_created: doc.date_created,
+                        budget: doc.budget,
+                        address: doc.address,
+                        description: doc.description,
+                        status: doc.status,
+                        userId: doc.userId,
+                        // request: {
+                        //     type: "GET",
+                        //     url: 'http://localhost:3000/admins/orders/' + doc._id
+                        // }
+                    }
+                })
+            });
+            // res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events');
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
 
 //Status
 
