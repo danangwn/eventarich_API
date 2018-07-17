@@ -101,6 +101,7 @@ app.get('/admin/users/:id', (req, res) => {
     .then(res => res.json())
     .then(json => console.log(json));
 
+res.redirect('/admin/users');
     });
 
 app.get('/admin/orders/accept/:id', (req, res) => {
@@ -114,6 +115,7 @@ app.get('/admin/orders/accept/:id', (req, res) => {
     })
     .then(res => res.json())
     .then(json => console.log(json));
+res.redirect('/admin/orders');
   });
 
 app.get('/admin/orders/done/:id', (req, res) => {
@@ -127,6 +129,7 @@ app.get('/admin/orders/done/:id', (req, res) => {
     })
     .then(res => res.json())
     .then(json => console.log(json));
+res.redirect('/admin/orders');
   });
 
 app.get('/admin/events/accept/:id', (req, res) => {
@@ -140,6 +143,7 @@ app.get('/admin/events/accept/:id', (req, res) => {
     })
     .then(res => res.json())
     .then(json => console.log(json));
+res.redirect('/admin/events');
   });
 
 app.get('/admin/events/reject/:id', (req, res) => {
@@ -153,6 +157,7 @@ app.get('/admin/events/reject/:id', (req, res) => {
     })
     .then(res => res.json())
     .then(json => console.log(json));
+res.redirect('/admin/events');
   });
 
 
