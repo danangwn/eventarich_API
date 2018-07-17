@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var mongo = require('mongodb');
 const keys = require('./config/keys')
+const fetch = require('node-fetch')
 
 const categoryRoutes = require('./api/routes/categories');
 const orderRoutes = require('./api/routes/orders');
@@ -34,41 +35,63 @@ app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 //SEMENTARA ADMIN NITIP DISINI
 
 
-app.get('/admin', (req, res) => {  
-function getRequest(url) {
-    return new Promise(function (success, failure) {
-        request(url, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                success(body);
-            } else {
-                failure(error);
-            }
-        });
-    });
+// app.get('/admin', (req, res) => {  
+// function getRequest(url) {
+//     return new Promise(function (success, failure) {
+//         request(url, function (error, response, body) {
+//             if (!error && response.statusCode == 200) {
+//                 success(body);
+//             } else {
+//                 failure(error);
+//             }
+//         });
+//     });
+// }
+
+// getRequest('http://localhost:3000/admins/orders/').then(function (body1) {
+//     // do something with body1
+//             var locals1 = body1 ;// console.log(data);
+//             var data1 = JSON.parse(locals1);
+//             console.log(data1);
+//     return getRequest('http://localhost:3000/admins/events/');
+// }).then(function (body2) {
+//             var locals2 = body2 ;// console.log(data);
+//             var data2 = JSON.parse(locals2);
+//             console.log(data2);
+//     // do something with body2
+//     return getRequest('http://localhost:3000/admins/users/');
+// }).then(function (body3) {
+//             var locals3 = body3 ;// console.log(data);
+//             var data3 = JSON.parse(locals3);
+//             console.log(data3);
+//     // do something with body3
+//     //And so on...
+// });
+//   res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index', {data1: data1,data2:data2,data3:data3});
+// });
+
+function get(url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
 }
 
-getRequest('http://localhost:3000/admins/orders/').then(function (body1) {
-    // do something with body1
-            var locals1 = body1 ;// console.log(data);
-            var data1 = JSON.parse(locals1);
-            console.log(data1);
-    return getRequest('http://localhost:3000/admins/events/');
-}).then(function (body2) {
-            var locals2 = body2 ;// console.log(data);
-            var data2 = JSON.parse(locals2);
-            console.log(data2);
-    // do something with body2
-    return getRequest('http://localhost:3000/admins/users/');
-}).then(function (body3) {
-            var locals3 = body3 ;// console.log(data);
-            var data3 = JSON.parse(locals3);
-            console.log(data3);
-    // do something with body3
-    //And so on...
-});
-  res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index', {data1: data1,data2:data2,data3:data3});
-});
-
+app.get('/admin', (req, res) => {
+  Promise.all([
+    get('http://localhost:3000/admins/orders/'),
+    get('http://localhost:3000/admins/events/'),
+    get('http://localhost:3000/admins/users/'),
+  ]).then(([orders, events, users]) =>
+    res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index',{
+      orders: orders.count,
+      events : events.count,
+      users : users.count
+    }))
+    .catch(err => res.send('Ops, something has gone wrong'))
+})
 
 app.get('/admin/orders', (req, res) => {
     request.get('http://localhost:3000/admins/orders/', function(err, response, body) {
