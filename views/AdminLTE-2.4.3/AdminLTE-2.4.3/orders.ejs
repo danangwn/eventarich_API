@@ -185,10 +185,11 @@
                   <td><%- data.orders[i].address %></td>
                   <td><%- data.orders[i].budget %></td>
                   <td><span class="label label-warning"><%- data.orders[i].status %></span></td>
-                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
+                  <td><a href="orders/accept/<%- data.orders[i]._id %>"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
                 Accept
-              </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
-                Reject
+              </button></a>
+              <br><br><a href="orders/done/<%- data.orders[i]._id %>"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                Done
               </button></td>
                 </tr>
                 <% } %>

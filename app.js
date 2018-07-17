@@ -30,45 +30,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
 
-
-
 //SEMENTARA ADMIN NITIP DISINI
 
-
-// app.get('/admin', (req, res) => {  
-// function getRequest(url) {
-//     return new Promise(function (success, failure) {
-//         request(url, function (error, response, body) {
-//             if (!error && response.statusCode == 200) {
-//                 success(body);
-//             } else {
-//                 failure(error);
-//             }
-//         });
-//     });
-// }
-
-// getRequest('http://localhost:3000/admins/orders/').then(function (body1) {
-//     // do something with body1
-//             var locals1 = body1 ;// console.log(data);
-//             var data1 = JSON.parse(locals1);
-//             console.log(data1);
-//     return getRequest('http://localhost:3000/admins/events/');
-// }).then(function (body2) {
-//             var locals2 = body2 ;// console.log(data);
-//             var data2 = JSON.parse(locals2);
-//             console.log(data2);
-//     // do something with body2
-//     return getRequest('http://localhost:3000/admins/users/');
-// }).then(function (body3) {
-//             var locals3 = body3 ;// console.log(data);
-//             var data3 = JSON.parse(locals3);
-//             console.log(data3);
-//     // do something with body3
-//     //And so on...
-// });
-//   res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index', {data1: data1,data2:data2,data3:data3});
-// });
 
 function get(url) {
   return new Promise((resolve, reject) => {
@@ -127,17 +90,75 @@ app.get('/admin/users', (req, res) => {
 });
 
 app.get('/admin/users/:id', (req, res) => {
-    var id = req.params.id;
-    console.log(id);
-    request.post('http://localhost:3000/admins/users/delete/:id', function(err, response, body) {
-        if (!err && response.statusCode == 200) {
-            var locals = body ;// console.log(data);
-            var data = JSON.parse(locals);
-            console.log(data);
-            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/users', {data: data});
-        }
+    var body = {
+      id : req.params.id
+    };
+    fetch('http://localhost:3000/admins/users/delete', {
+    method: 'POST',
+    body:    JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' },
+})
+    .then(res => res.json())
+    .then(json => console.log(json));
+
     });
-});
+
+app.get('/admin/orders/accept/:id', (req, res) => {
+    var body = {
+      id : req.params.id
+    };
+    fetch('http://localhost:3000/admins/orders/accept', {
+      method: 'POST',
+      body:    JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
+  });
+
+app.get('/admin/orders/done/:id', (req, res) => {
+    var body = {
+      id : req.params.id
+    };
+    fetch('http://localhost:3000/admins/orders/done', {
+      method: 'POST',
+      body:    JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
+  });
+
+app.get('/admin/events/accept/:id', (req, res) => {
+    var body = {
+      id : req.params.id
+    };
+    fetch('http://localhost:3000/admins/events/accept', {
+      method: 'POST',
+      body:    JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
+  });
+
+app.get('/admin/events/reject/:id', (req, res) => {
+    var body = {
+      id : req.params.id
+    };
+    fetch('http://localhost:3000/admins/events/reject', {
+      method: 'POST',
+      body:    JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
+  });
+
+
+
+
+//------------------------------------------------------------------------------------//
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));

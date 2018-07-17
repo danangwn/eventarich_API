@@ -150,7 +150,7 @@ router.get('/user', checkAuth, (req, res, next) => {
 
 //Get All Event
 router.get('/', (req, res, next) => {
-    Event.find()
+    Event.find({status : "Accept"})
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .select('')

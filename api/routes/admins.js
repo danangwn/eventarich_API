@@ -47,36 +47,12 @@ router.get('/orders', (req, res, next) => {
         });
 });
 
-//Get By Category
-router.get('/category/:categoryId', (req, res, next) => {
-    Order.find({category : req.params.categoryId})
-        .exec()
-        .then(order => {
-            if(!order) {
-                return res.status(404).json({
-                    message: "Order not Found"
-                });
-            }
-            res.status(200).json({
-                order: order,
-                // request: {
-                //     type: 'GET',
-                //     url: 'http://localhost:3000/orders'
-                // }
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        });
-});
 
 //Status
 
 //Accepted
-router.patch('/accept/:orderId', (req, res, next) => {
-    const id = req.params.orderId;
+router.post('/orders/accept/', (req, res, next) => {
+    const id = req.body.id;
     Order.update({ _id: id }, { $set: {status : "Proccessed"} })
         .exec()
         .then(result => {
@@ -97,8 +73,8 @@ router.patch('/accept/:orderId', (req, res, next) => {
 });
 
 //Done
-router.patch('/done/:orderId',  (req, res, next) => {
-    const id = req.params.orderId;
+router.post('/orders/done/',  (req, res, next) => {
+    const id = req.body.id;
     Order.update({ _id: id }, { $set: {status : "Done"} })
         .exec()
         .then(result => {
@@ -118,26 +94,6 @@ router.patch('/done/:orderId',  (req, res, next) => {
         });
 });
 
-router.patch('/delete/:orderId', (req, res, next) => {
-    const id = req.params.orderId;
-    Order.update({ _id: id }, { $set: {status : "Canceled"} })
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: "Order Canceled",
-                // request: {
-                //     type: "PATCH",
-                //     url: "http://localhost:3000/events" + id
-                // }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
 
 //-------------- EVENTS --------------//
 
@@ -183,8 +139,8 @@ router.get('/events', (req, res, next) => {
 //status
 
 //Accepted
-router.patch('/accept/:eventId', (req, res, next) => {
-    const id = req.params.eventId;
+router.post('/events/accept/', (req, res, next) => {
+    const id = req.body.id;
     // const updateOps = {};
     // for (const ops of req.body) {
     //     updateOps[ops.propName] = ops.value;
@@ -209,8 +165,8 @@ router.patch('/accept/:eventId', (req, res, next) => {
 });
 
 //Rejected
-router.patch('/reject/:eventId', (req, res, next) => {
-    const id = req.params.eventId;
+router.post('/events/reject/', (req, res, next) => {
+    const id = req.body.id;
     // const updateOps = {};
     // for (const ops of req.body) {
     //     updateOps[ops.propName] = ops.value;
@@ -271,25 +227,26 @@ router.get('/users', (req, res, next) => {
         });
 });
 
-// router.post('/users/delete/:userId', (req, res, next) => {
-//     const id = req.params.userId;
-//     User.update({ _id: id }, { $set: {status : "0"} })
-//         .exec()
-//         .then(result => {
-//             res.status(200).json({
-//                 message: "User Deactivated",
-//                 // request: {
-//                 //     type: "PATCH",
-//                 //     url: "http://localhost:3000/users" + id
-//                 // }
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// });
+router.post('/users/delete', (req, res, next) => {
+    var id = req.body.id;
+    console.log(id);
+    User.update({ _id: id }, { $set: {status : "0"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "User Deactivated",
+                // request: {
+                //     type: "PATCH",
+                //     url: "http://localhost:3000/users" + id
+                // }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
 
 module.exports = router;
