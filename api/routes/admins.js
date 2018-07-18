@@ -8,6 +8,24 @@ const User = require('../models/user');
 const Event = require('../models/event');
 // const jwt = require('jsonwebtoken');
 
+//=======================================================//
+//login
+router.post("/login", (req, res, next) => {
+    User.find({ email: req.body.email, password : req.body.password })
+        .exec()
+        .then(user => {
+          res.send('ADMIN!!!!');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+
+
 
 //-------------- ORDERS --------------//
 
@@ -143,6 +161,44 @@ router.get('/events', (req, res, next) => {
             const response = {
                 count: docs.length,
                 events: docs.map(doc => {
+                    return {
+                        title: doc.title,
+                        date_create: doc.date_create,
+                        date_event: doc.date_event,
+                        description: doc.description,
+                        event_image: doc.event_image,
+                        _id: doc._id,
+                        city: doc.city,
+                        userId: doc.userId,
+                        categoryevent: doc.categoryevent,
+                        status: doc.status,
+                        // request: {
+                        //     type: "GET",
+                        //     url: "http://localhost:3000/admins/events/" + doc._id
+                        // }
+                    }
+                })
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.get('/events/new', (req, res, next) => {
+    Event.find({status : "waiting admin's confirmation.."})
+        .populate('userId', 'name')
+        .populate('categoryevent', 'name')
+        .select('')
+        .exec()
+        .then(docs => {
+            const response = {
+                count: docs.length,
+                newevents: docs.map(doc => {
                     return {
                         title: doc.title,
                         date_create: doc.date_create,

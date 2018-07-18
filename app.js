@@ -15,6 +15,9 @@ const favoriteRoutes = require('./api/routes/favorites');
 const categoryeventRoutes = require('./api/routes/categoryevents');
 const adminRoutes = require('./api/routes/admins');
 
+
+const router = express.Router();
+const User = require('./api/models/user');
 // mongoose.connect('mongodb://localhost/eventarich_me');
 // // mongoose.connect(keys.mongodb.dbURI, () => {
 // //     console.log('connected to mongodb');
@@ -32,6 +35,39 @@ app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
 //SEMENTARA ADMIN NITIP DISINI
 
+app.get('', (req, res) => {
+  res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/login');
+});
+
+// router.post("/login", (req, res, next) => {
+//     User.find({ email: req.body.email, password : req.body.password })
+//         .exec()
+//         .then(user => {
+//           res.redirect('/admin');
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
+// app.get('', (req, res) => {
+//     var body = {
+//       email : req.body.email,
+//       password : req.body.password
+//     };
+//     fetch('http://localhost:3000/admins/login', {
+//     method: 'POST',
+//     body:    JSON.stringify(body),
+//     headers: { 'Content-Type': 'application/json' },
+// })
+//     .then(res => res.json())
+//     .then(json => console.log(json));
+//
+// res.redirect('/admin');
+//     });
+
 
 function get(url) {
   return new Promise((resolve, reject) => {
@@ -44,16 +80,18 @@ function get(url) {
 
 app.get('/admin', (req, res) => {
   Promise.all([
-    get('http://localhost:3000/admins/orders/new'),
     get('http://localhost:3000/admins/orders/'),
-    get('http://localhost:3000/admins/events/'),
     get('http://localhost:3000/admins/users/'),
-  ]).then(([neworders, orders, events, users]) =>
+    get('http://localhost:3000/admins/events/'),
+    get('http://localhost:3000/admins/orders/new'),
+    get('http://localhost:3000/admins/events/new'),
+  ]).then(([orders, users, events, neworders, newevents]) =>
     res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/index',{
-      neworders : neworders.count,
       orders: orders.count,
+      users : users.count,
       events : events.count,
-      users : users.count
+      neworders : neworders.count,
+      newevents : newevents.count
     }))
     .catch(err => res.send('Ops, something has gone wrong'))
 })
@@ -69,6 +107,17 @@ app.get('/admin/orders', (req, res) => {
     });
 });
 
+app.get('/admin/orders/new', (req, res) => {
+    request.get('http://localhost:3000/admins/orders/new', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            console.log(data);
+            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/neworders', {data: data});
+        }
+    });
+});
+
 app.get('/admin/events', (req, res) => {
     request.get('http://localhost:3000/admins/events/', function(err, response, body) {
         if (!err && response.statusCode == 200) {
@@ -76,6 +125,17 @@ app.get('/admin/events', (req, res) => {
             var data = JSON.parse(locals);
             console.log(data);
             res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/events', {data: data});
+        }
+    });
+});
+
+app.get('/admin/events/new', (req, res) => {
+    request.get('http://localhost:3000/admins/events/new', function(err, response, body) {
+        if (!err && response.statusCode == 200) {
+            var locals = body ;// console.log(data);
+            var data = JSON.parse(locals);
+            console.log(data);
+            res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/newevents', {data: data});
         }
     });
 });
@@ -181,6 +241,7 @@ app.use('/users', userRoutes); //Middleware
 app.use('/favorites', favoriteRoutes);
 app.use('/categoryevents', categoryeventRoutes);
 app.use('/admins', adminRoutes);
+// app.use('/login');
 
 
 app.use((req, res, next) => {

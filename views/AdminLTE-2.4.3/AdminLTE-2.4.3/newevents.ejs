@@ -175,16 +175,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <% for(var i=0; i < data.events.length; i++) { %>
+                  <% for(var i=0; i < data.newevents.length; i++) { %>
                 <tr>
-                  <td><%- data.events[i]._id %></td>
-                  <td><%- data.events[i].title %></td>
-                  <td><%- data.events[i].date_event %></td>
-                  <td><%- data.events[i].date_create %></td>
-                  <td><%- data.events[i].description %></td>
-                  <td><%- data.events[i].event_image %></td>
-                  <td><%- data.events[i].city %></td>
-                  <td><span class="label label-warning"><%- data.events[i].status %></span></td>
+                  <td><%- data.newevents[i]._id %></td>
+                  <td><%- data.newevents[i].title %></td>
+                  <td><%- data.newevents[i].date_event %></td>
+                  <td><%- data.newevents[i].date_create %></td>
+                  <td><%- data.newevents[i].description %></td>
+                  <td><%- data.newevents[i].event_image %></td>
+                  <td><%- data.newevents[i].city %></td>
+                  <td><span class="label label-warning"><%- data.newevents[i].status %></span></td>
                   <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
                 Accept
               </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
@@ -203,7 +203,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <a href="events/accept/<%- data.events[i]._id %>"><button type="button" class="btn btn-outline">Save changes</button></a>
+                <a href="accept/<%- data.newevents[i]._id %>"><button type="button" class="btn btn-outline">Save changes</button></a>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -224,7 +224,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <a href="events/reject/<%- data.events[i]._id %>"><button type="button" class="btn btn-outline">Save changes</button></a>
+                <a href="reject/<%- data.newevents[i]._id %>"><button type="button" class="btn btn-outline">Save changes</button></a>
               </div>
             </div>
             <!-- /.modal-content -->
