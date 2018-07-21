@@ -17,7 +17,6 @@ const adminRoutes = require('./api/routes/admins');
 
 
 const router = express.Router();
-const User = require('./api/models/user');
 // mongoose.connect('mongodb://localhost/eventarich_me');
 // // mongoose.connect(keys.mongodb.dbURI, () => {
 // //     console.log('connected to mongodb');
