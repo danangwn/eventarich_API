@@ -129,7 +129,7 @@ router.get('/:orderId', checkAuth, (req, res, next) => {
 
 
 //Delete Orders
-router.patch('/delete/:orderId', checkAuth, (req, res, next) => {
+router.post('/delete/:orderId', checkAuth, (req, res, next) => {
     const id = req.params.orderId;
     Order.update({ _id: id }, { $set: {status : "0"} })
         .exec()

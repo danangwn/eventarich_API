@@ -129,7 +129,33 @@ router.get('/', checkAuth, (req, res, next) => {
 });
 
 //Edit Profile
-
+router.patch('/edit', checkAuth, (req, res, next) => {
+	const token = req.headers.authorization.split(" ")[1];
+	const decode = jwt.verify(token, "bismillah");
+	const userId = decode.userId;
+    // const id = req.params.userId;
+    const updateOps = {};
+    for (const ops of req.body) {
+        updateOps[ops.propName] = ops.value;
+    }
+    User.update({ _id: userId }, { $set: updateOps })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Profile updated",
+                // request: {
+                //     type: "PATCH",
+                //     url: "http://localhost:3000/profiles" + id
+                // }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
 
 
 

@@ -14,9 +14,12 @@ const eventRoutes = require('./api/routes/events');
 const favoriteRoutes = require('./api/routes/favorites');
 const categoryeventRoutes = require('./api/routes/categoryevents');
 const adminRoutes = require('./api/routes/admins');
+// const admintRoutes = require('./admin');
 
+const checkAuth = require('./api/middleware/checkAuthAdmin');
 
 const router = express.Router();
+
 // mongoose.connect('mongodb://localhost/eventarich_me');
 // // mongoose.connect(keys.mongodb.dbURI, () => {
 // //     console.log('connected to mongodb');
@@ -34,39 +37,9 @@ app.use(express.static(__dirname + '/views/AdminLTE-2.4.3/AdminLTE-2.4.3'));
 
 //SEMENTARA ADMIN NITIP DISINI
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
   res.render('AdminLTE-2.4.3/AdminLTE-2.4.3/login');
 });
-
-// router.post("/login", (req, res, next) => {
-//     User.find({ email: req.body.email, password : req.body.password })
-//         .exec()
-//         .then(user => {
-//           res.redirect('/admin');
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// });
-// app.get('', (req, res) => {
-//     var body = {
-//       email : req.body.email,
-//       password : req.body.password
-//     };
-//     fetch('http://localhost:3000/admins/login', {
-//     method: 'POST',
-//     body:    JSON.stringify(body),
-//     headers: { 'Content-Type': 'application/json' },
-// })
-//     .then(res => res.json())
-//     .then(json => console.log(json));
-//
-// res.redirect('/admin');
-//     });
-
 
 function get(url) {
   return new Promise((resolve, reject) => {
@@ -77,7 +50,7 @@ function get(url) {
   })
 }
 
-app.get('/admin', (req, res) => {
+app.get('/admin', checkAuth, (req, res) => {
   Promise.all([
     get('http://localhost:3000/admins/orders/'),
     get('http://localhost:3000/admins/users/'),
@@ -240,6 +213,8 @@ app.use('/users', userRoutes); //Middleware
 app.use('/favorites', favoriteRoutes);
 app.use('/categoryevents', categoryeventRoutes);
 app.use('/admins', adminRoutes);
+// app.use('/', admintRoutes);
+// app.use('/admin/login');
 // app.use('/login');
 
 

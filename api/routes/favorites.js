@@ -7,10 +7,10 @@ const Event = require('../models/event');
 const Favorite = require('../models/favorite');
 const jwt = require('jsonwebtoken');
 
-router.post('/' , (req, res, next) => {
+router.post('/:eventId' , (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decode = jwt.verify(token, "bismillah");
-    Event.findById(req.body.eventId)
+    Event.findById(req.params.eventId)
         .then(event => {
             if(!event) {
                 return res.status(404).json({
@@ -28,10 +28,10 @@ router.post('/' , (req, res, next) => {
         .then(result => {
             res.status(201).json({
                 message: "Event Liked",
-                request: {
-                    type : "GET",
-                    url: 'http://localhost:3000/orders/' + result._id
-                }
+                // request: {
+                //     type : "GET",
+                //     url: 'http://localhost:3000/orders/' + result._id
+                // }
             });
         })
         .catch(err => {
