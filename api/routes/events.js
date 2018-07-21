@@ -297,7 +297,7 @@ router.patch('/edit/:eventId', checkAuth, (req, res, next) => {
 //         });
 // });
 //
-router.patch('/delete/:eventId', checkAuth, (req, res, next) => {
+router.post('/delete/:eventId', checkAuth, (req, res, next) => {
     const id = req.params.eventId;
     Event.update({ _id: id }, { $set: {status : "0"} })
         .exec()

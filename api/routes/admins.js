@@ -1,20 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');   //Generate ID
-// const checkAuth = require('../middleware/checkauth');
+const checkAuth = require('../middleware/checkauth');
 const Order = require('../models/order');
 const Category = require('../models/category');
 const User = require('../models/user');
 const Event = require('../models/event');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 //=======================================================//
 //login
 router.post("/login", (req, res, next) => {
-    User.find({ email: req.body.email, password : req.body.password })
+    User.find({ email: req.body.email})
         .exec()
         .then(user => {
-          res.send('ADMIN!!!!');
+          if(user) {
+              const token = jwt.sign({
+                  email: user[0].email,
+                  userId: user[0]._id
+              },
+              "bismillah"
+          );
+              return res.redirect('/admin');
+          }
         })
         .catch(err => {
             console.log(err);
