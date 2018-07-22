@@ -26,6 +26,7 @@ router.post('/signup', (req, res, next) => {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId(),
                             email: req.body.email,
+                            username:req.body.username,
                             password: hash,
                             name: req.body.name,
                             address: req.body.address,
@@ -51,7 +52,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 //-----------Sign In-----------//
-router.post("/login", (req, res, next) => {
+router.post('/login', (req, res, next) => {
     User.find({ email: req.body.email })
         .exec()
         .then(user => {

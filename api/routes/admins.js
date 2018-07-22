@@ -7,30 +7,88 @@ const Category = require('../models/category');
 const User = require('../models/user');
 const Event = require('../models/event');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 //=======================================================//
 //login
-router.post("/login", (req, res, next) => {
-    User.find({ email: req.body.email})
-        .exec()
-        .then(user => {
-          if(user) {
-              const token = jwt.sign({
-                  email: user[0].email,
-                  userId: user[0]._id
-              },
-              "bismillah"
-          );
-              return res.redirect('/admin');
-          }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.getUserByUsername(username, function (err, user) {
+            if (err) throw err;
+            if (!user) {
+                return done(null, false, { message: 'Unknown User' });
+            }
+
+            User.comparePassword(password, user.password, function (err, isMatch) {
+                if (err) throw err;
+                if (isMatch) {
+                    return done(null, user);
+                } else {
+                    return done(null, false, { message: 'Invalid password' });
+                }
             });
         });
+    }));
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
 });
+
+passport.deserializeUser(function (id, done) {
+    User.getUserById(id, function (err, user) {
+        done(err, {user});
+    });
+});
+
+router.post('/login',
+    passport.authenticate('local', { successRedirect: '/admin', failureRedirect: '/', failureFlash: true }),
+    function (req, res) {
+        res.redirect('/admin');
+    });
+
+// router.post('/login', (req, res, next) => {
+//     User.find({ email: req.body.email })
+//         .exec()
+//         .then(user => {
+//             if(user.length < 1) {
+//                 return res.status(401).json({
+//                     message: 'Auth failed'
+//                 });
+//             }
+//             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+//                 if(err) {
+//                     return res.status(401).json({
+//                         message: 'Auth failed'
+//                     });
+//                 }
+//                 if(result) {
+//                     const token = jwt.sign({
+//                         email: user[0].email,
+//                         userId: user[0]._id
+//                     },
+//                     "bismillah"
+//                 );
+//                     return res.redirect('/admin')
+//                     //     res.status(200).json({
+//                     //     message: 'Auth successful',
+//                     //     token: token,
+//                     //     userId : user[0]._id
+//                     // });
+//                 }
+//                 res.status(401).json({
+//                     message: 'Auth failed'
+//                 });
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 
 

@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
         req.userData = decode;
 
          //
+        
         next(); // success auth
     }
     catch (error) {
