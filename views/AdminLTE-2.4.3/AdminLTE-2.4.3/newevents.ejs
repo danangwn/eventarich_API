@@ -168,12 +168,12 @@
                   <td><img src="../../../<%- data.newevents[i].event_image %>" width="100px"></img></td>
                   <td><%- data.newevents[i].city %></td>
                   <td><%- data.newevents[i].status %></td>
-                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
+                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success-<%- data.newevents[i]._id %>">
                 Accept
-              </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+              </button><br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-<%- data.newevents[i]._id %>">
                 Reject
               </button></td>
-        <div class="modal modal-success fade" id="modal-success">
+        <div class="modal modal-success fade" id="modal-success-<%- data.newevents[i]._id %>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -194,7 +194,7 @@
           <!-- /.modal-dialog -->
         </div>
 
-                <div class="modal modal-danger fade" id="modal-danger">
+                <div class="modal modal-danger fade" id="modal-danger-<%- data.newevents[i]._id %>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
