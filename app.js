@@ -23,11 +23,12 @@ const favoriteRoutes = require('./api/routes/favorites');
 const categoryeventRoutes = require('./api/routes/categoryevents');
 const adminRoutes = require('./api/routes/admins');
 
-const url = 'mongodb://localhost:27017/eventarich_me';
-// mongoose.connect('mongodb://127.0.0.1:27017');
-mongoose.connect(keys.mongodb.dbURI, () => {
-    console.log('connected to mongodb');
-});
+
+mongoose.connect('mongodb://127.0.0.1:27017');
+mongoose.connect('mongodb://localhost:27017/eventarich_me');
+// mongoose.connect(keys.mongodb.dbURI, () => {
+//     console.log('connected to mongodb');
+// });
 mongoose.Promise = global.Promise;
 
 const router = express.Router();
