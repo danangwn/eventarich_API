@@ -31,10 +31,8 @@ const router = express.Router();
 // // mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://127.0.0.1:27017');
 // mongoose.connect('mongodb://localhost/eventarich_me');
-mongoose.connect('mongodb://localhost:27017/eventarich_me');
-mongoose.connect(keys.mongodb.dbURI,{
-  useMongoClient:true
-});
+const url = 'mongodb://localhost:27017/eventarich_me';
+mongoose.connect(url, { useNewUrlParser: true });
 mongoose.connect(keys.mongodb.dbURI, () => {
     console.log('connected to mongodb');
 });
