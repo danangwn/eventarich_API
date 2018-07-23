@@ -40,7 +40,7 @@ const UserSchema = mongoose.Schema({
 var User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUserByEmail = function(email, callback){
-    var query = {email: "admin@email.com"};
+    var query = {email: "admin@eventarich.com"};
     User.findOne(query, callback);
 }
 
