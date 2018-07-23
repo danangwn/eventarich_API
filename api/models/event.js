@@ -18,7 +18,7 @@ const EventSchema = mongoose.Schema({
     },
 
     date_event: {
-        type: Date, 
+        type: Date,
         required: true
     },
 
@@ -28,7 +28,7 @@ const EventSchema = mongoose.Schema({
 
     event_image: {
       type: String,
-      // required: true
+      required: true
     },
 
     city: {

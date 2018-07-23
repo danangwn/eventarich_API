@@ -32,11 +32,6 @@ mongoose.Promise = global.Promise;
 
 const router = express.Router();
 
-
-// mongoose.connect('mongodb://127.0.0.1:27017');
-// mongoose.connect('mongodb://localhost/eventarich_me');
-// mongoose.Promise = global.Promise;
-
 var request = require('request');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
