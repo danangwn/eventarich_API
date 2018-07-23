@@ -212,7 +212,7 @@ app.get('/admin/orders/accept/:id', ensureAuthenticated,(req, res) => {
       headers: { 'Content-Type': 'application/json' },
     })
     .then(res => res.json())
-    .then(json => console.log(json));
+    .then(json => alert(json));
 res.redirect('/admin/orders');
   });
 
@@ -240,7 +240,7 @@ app.get('/admin/events/accept/:id',ensureAuthenticated, (req, res) => {
       headers: { 'Content-Type': 'application/json' },
     })
     .then(res => res.json())
-    .then(json => console.log(json));
+    .then(json => alert(json));
 res.redirect('/admin/events');
   });
 
