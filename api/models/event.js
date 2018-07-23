@@ -36,10 +36,6 @@ const EventSchema = mongoose.Schema({
       required: true
     },
 
-    // link: {
-    //   type: String,
-    //   required: true
-    // },
     userId: {
       type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     },

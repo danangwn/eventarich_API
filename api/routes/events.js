@@ -57,13 +57,11 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         title: req.body.title,
         date_create: date_create,
-        date_event: req.body.date,
+        date_event: req.body.date_event,
         description: req.body.description,
         event_image: req.file.path,
-        // province: req.body.province,
         city: req.body.city,
         // address: req.body.address,
-        // link: req.body.link,
         userId: decode.userId,
         categoryevent: req.body.categoryevent
 
@@ -272,31 +270,31 @@ router.patch('/edit/:eventId', checkAuth, (req, res, next) => {
         });
 });
 
-// router.patch('/accept/:eventId', checkAuth, (req, res, next) => {
-//     const id = req.params.eventId;
-//     // const updateOps = {};
-//     // for (const ops of req.body) {
-//     //     updateOps[ops.propName] = ops.value;
-//     // }
-//     Event.update({ _id: id }, { $set: {status : "Accept"} })
-//         .exec()
-//         .then(result => {
-//             res.status(200).json({
-//                 message: "Event Accepted",
-//                 request: {
-//                     type: "PATCH",
-//                     url: "http://localhost:3000/events" + id
-//                 }
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// });
-//
+router.patch('/accept/:eventId', checkAuth, (req, res, next) => {
+    const id = req.params.eventId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+    Event.update({ _id: id }, { $set: {status : "Accept"} })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "Event Accepted",
+                request: {
+                    type: "PATCH",
+                    url: "http://localhost:3000/events" + id
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
 router.post('/delete/:eventId', checkAuth, (req, res, next) => {
     const id = req.params.eventId;
     Event.update({ _id: id }, { $set: {status : "0"} })
