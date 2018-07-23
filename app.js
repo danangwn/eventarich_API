@@ -32,6 +32,9 @@ const router = express.Router();
 // mongoose.connect('mongodb://127.0.0.1:27017');
 // mongoose.connect('mongodb://localhost/eventarich_me');
 mongoose.connect('mongodb://localhost:27017/eventarich_me');
+mongoose.connect(keys.mongodb.dbURI,{
+  useMongoClient:true
+});
 mongoose.connect(keys.mongodb.dbURI, () => {
     console.log('connected to mongodb');
 });
