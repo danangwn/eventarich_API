@@ -30,6 +30,23 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style>
+table.dataTable {
+    clear: both;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    max-width: none !important;
+    background-color: #f9f9f9;
+    border-collapse: separate !important;
+}
+.btn {
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+    width: 80px;
+}
+</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -177,7 +194,7 @@
             <br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-<%- data.orders[i]._id %>">
                 Done
               </button></td>
-              
+
         <div class="modal modal-success fade" id="modal-success-<%- data.orders[i]._id %>">
           <div class="modal-dialog">
             <div class="modal-content">

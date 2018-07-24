@@ -29,6 +29,43 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style>
+
+a {
+  color: #0254EB
+}
+a:visited {
+  color: #0254EB
+}
+a.morelink {
+  text-decoration:none;
+  outline: none;
+}
+.morecontent span {
+  display: none;
+}
+.comment {
+  width: 15vw;
+  background-color: #f9f9f9;
+  margin: 10px;
+}
+
+table.dataTable {
+    clear: both;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    max-width: none !important;
+    background-color: #f9f9f9;
+    border-collapse: separate !important;
+}
+.btn {
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+    width: 80px;
+}
+</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -164,7 +201,12 @@
                   <td><%- data.events[i].title %></td>
                   <td><%- data.events[i].date_event %></td>
                   <td><%- data.events[i].date_create %></td>
-                  <td><%- data.events[i].description %></td>
+                
+                  <td>
+                    <div class="comment more"> 
+                      <%- data.events[i].description %>
+                    </div>
+                  </td>
                   <td><img src="../../../<%- data.events[i].event_image %>" width="100px"></img></td>
                   <td><%- data.events[i].city %></td>
                   <td><%- data.events[i].status %></td>
@@ -289,6 +331,40 @@
       'autoWidth'   : false
     })
   })
+
+  $(document).ready(function() {
+  var showChar = 100;
+  var ellipsestext = "...";
+  var moretext = "more";
+  var lesstext = "less";
+  $('.more').each(function() {
+    var content = $(this).html();
+
+    if(content.length > showChar) {
+
+      var c = content.substr(0, showChar);
+      var h = content.substr(showChar-1, content.length - showChar);
+
+      var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+      $(this).html(html);
+    }
+
+  });
+
+  $(".morelink").click(function(){
+    if($(this).hasClass("less")) {
+      $(this).removeClass("less");
+      $(this).html(moretext);
+    } else {
+      $(this).addClass("less");
+      $(this).html(lesstext);
+    }
+    $(this).parent().prev().toggle();
+    $(this).prev().toggle();
+    return false;
+  });
+});
 </script>
 </body>
 </html>
