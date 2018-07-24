@@ -148,6 +148,7 @@
                 <thead>
                 <tr>
                   <th>Order ID</th>
+                  <th>Pemesan</th>
                   <th>Category</th>
                   <th>Date</th>
                   <th>Date Created</th>
@@ -162,6 +163,7 @@
                 <% for(var i=0; i < data.orders.length; i++) { %>
                 <tr>
                   <td><%- data.orders[i]._id %></td>
+                  <td><%- data.orders[i].userId.name %></td>
                   <td><%- data.orders[i].category.name %></td>
                   <td><%- data.orders[i].date %></td>
                   <td><%- data.orders[i].date_created %></td>
@@ -222,6 +224,7 @@
                 <tfoot>
                 <tr>
                   <th>Order ID</th>
+                  <th>Pemesan</th>
                   <th>Category</th>
                   <th>Date</th>
                   <th>Date Created</th>
