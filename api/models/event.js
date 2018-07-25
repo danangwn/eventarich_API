@@ -28,7 +28,7 @@ const EventSchema = mongoose.Schema({
 
     event_image: {
       type: String,
-      required: true
+      // required: true
     },
 
     city: {
