@@ -69,8 +69,7 @@ const upload = multer({
 //         });
 // });
 
-router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res, next) => {
-    const eventId = req.params.eventId;
+router.post('/', checkAuth, upload.single('event_image_path'), (req, res, next) => {
     console.log(req.file);
     const token = req.headers.authorization.split(" ")[1];
     const decode = jwt.verify(token, "bismillah");
@@ -78,9 +77,7 @@ router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res
     const image = new Image({
         _id: new mongoose.Types.ObjectId(),
         event_image_path: req.file.path,
-        eventId : eventId,
         userId: decode.userId
-
     });
     image
         .save()
@@ -89,8 +86,8 @@ router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res
             res.status(200).json({
                 message: 'Upload successfully posted',
                 Uploaded: {
+                    id: result._id,
                     event_image_path: result.event_image_path,
-                    eventId : result.eventId,
                     userId: result.userId
                 }
             });
@@ -116,6 +113,7 @@ router.get('/user', checkAuth, (req, res, next) => {
                     return {
                         event_image: doc.event_image,
                         userId: doc.userId,
+                        eventId: doc.eventId,
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/images/" + doc._id

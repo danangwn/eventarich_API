@@ -46,8 +46,9 @@ var date_create = date+' '+time;
 //Routesnya /products
 
 //Post Events
-router.post('/', checkAuth,  (req, res, next) => {
+router.post('/:imageId', checkAuth,  (req, res, next) => {
     console.log(req.file);
+    var image = req.params.imageId;
     const token = req.headers.authorization.split(" ")[1];
     const decode = jwt.verify(token, "bismillah");
 
@@ -57,7 +58,7 @@ router.post('/', checkAuth,  (req, res, next) => {
         date_create: date_create,
         date_event: req.body.date_event,
         description: req.body.description,
-        // event_image: req.file.path,
+        image: image,
         city: req.body.city,
         // address: req.body.address,
         userId: decode.userId,
@@ -77,7 +78,7 @@ router.post('/', checkAuth,  (req, res, next) => {
                     date_event: result.date_event,
                     description: result.description,
                     _id: result._id,
-                    // province: result.province,
+                    image: result.image,
                     city: result.city,
                     // address: result.address,
                     // link: result.link,
@@ -118,7 +119,7 @@ router.get('/user', checkAuth, (req, res, next) => {
                         date_create: doc.date_create,
                         date_event: doc.date_event,
                         description: doc.description,
-                        image: doc.event_image_path,
+                        image: doc.image,
                         _id: doc._id,
                         // province: doc.province,
                         city: doc.city,
