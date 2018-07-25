@@ -1,6 +1,3 @@
-// Ini buat referensi aja, ada buat upload filenya
-
-
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -37,6 +34,7 @@ const upload = multer({
 
 const Event = require('../models/event');
 const Categoryevent = require('../models/categoryevent');
+const Image = require('../models/image');
 // var date_create = Date.now();
 var today = new Date();
 var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -48,7 +46,7 @@ var date_create = date+' '+time;
 //Routesnya /products
 
 //Post Events
-router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
+router.post('/', checkAuth,  (req, res, next) => {
     console.log(req.file);
     const token = req.headers.authorization.split(" ")[1];
     const decode = jwt.verify(token, "bismillah");
@@ -59,7 +57,7 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
         date_create: date_create,
         date_event: req.body.date_event,
         description: req.body.description,
-        event_image: req.file.path,
+        // event_image: req.file.path,
         city: req.body.city,
         // address: req.body.address,
         userId: decode.userId,
@@ -78,7 +76,6 @@ router.post('/', checkAuth, upload.single('event_image'), (req, res, next) => {
                     date_create: result.date_create,
                     date_event: result.date_event,
                     description: result.description,
-                    event_image: result.event_image,
                     _id: result._id,
                     // province: result.province,
                     city: result.city,
@@ -107,6 +104,7 @@ router.get('/user', checkAuth, (req, res, next) => {
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
     Event.find({userId : userId})
+        .populate('image', 'event_image_path')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .select('')
@@ -120,7 +118,7 @@ router.get('/user', checkAuth, (req, res, next) => {
                         date_create: doc.date_create,
                         date_event: doc.date_event,
                         description: doc.description,
-                        event_image: doc.event_image,
+                        image: doc.event_image_path,
                         _id: doc._id,
                         // province: doc.province,
                         city: doc.city,
@@ -149,31 +147,26 @@ router.get('/user', checkAuth, (req, res, next) => {
 //Get All Event
 router.get('/', (req, res, next) => {
     Event.find({status : "Accept"})
+        .select('image event_image_path')
+        .populate('image','_id')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
-        .select('')
         .exec()
         .then(docs => {
             const response = {
                 count: docs.length,
                 events: docs.map(doc => {
                     return {
+                        _id: doc._id,
                         title: doc.title,
                         date_create: doc.date_create,
                         date_event: doc.date_event,
                         description: doc.description,
-                        event_image: doc.event_image,
-                        _id: doc._id,
-                        // province: doc.province,
                         city: doc.city,
-                        // address: doc.address,
-                        // link: doc.link,
                         userId: doc.userId,
                         categoryevent: doc.categoryevent,
-                        request: {
-                            type: "GET",
-                            url: "http://localhost:3000/events/" + doc._id
-                        }
+                        image: doc._id,
+                        event_image_path : doc.event_image_path,
                     }
                 })
             };
@@ -191,6 +184,7 @@ router.get('/', (req, res, next) => {
 router.get('/:eventId', (req, res, next) => {
     const id = req.params.eventId;
     Event.findById(id)
+        .populate('image', 'event_image_path')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .select('')

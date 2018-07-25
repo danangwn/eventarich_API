@@ -26,11 +26,6 @@ const EventSchema = mongoose.Schema({
         type: String
     },
 
-    event_image: {
-      type: String,
-      required: true
-    },
-
     city: {
       type: String,
       required: true
@@ -47,7 +42,11 @@ const EventSchema = mongoose.Schema({
 
     categoryevent: {
       type: mongoose.Schema.Types.ObjectId, ref: 'Categoryevent', required: true
-    }
+    },
+
+    // image:{
+    //   type : mongoose.Schema.Types.ObjectId, ref: 'Image'
+    // }
 
 });
 
