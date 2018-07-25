@@ -44,9 +44,9 @@ const EventSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, ref: 'Categoryevent', required: true
     },
 
-    // image:{
-    //   type : mongoose.Schema.Types.ObjectId, ref: 'Image'
-    // }
+    image:{
+      type : mongoose.Schema.Types.ObjectId, ref: 'Image'
+    }
 
 });
 
