@@ -69,17 +69,14 @@ const upload = multer({
 //         });
 // });
 
-router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res, next) => {
+router.post('/:eventId',  upload.single('event_image_path'), (req, res, next) => {
     const eventId = req.params.eventId;
     console.log(req.file);
-    const token = req.headers.authorization.split(" ")[1];
-    const decode = jwt.verify(token, "bismillah");
 
     const image = new Image({
         _id: new mongoose.Types.ObjectId(),
         event_image_path: req.file.path,
         eventId : eventId,
-        userId: decode.userId
 
     });
     image
@@ -91,7 +88,6 @@ router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res
                 Uploaded: {
                     event_image_path: result.event_image_path,
                     eventId : result.eventId,
-                    userId: result.userId
                 }
             });
         })
@@ -103,36 +99,35 @@ router.post('/:eventId', checkAuth, upload.single('event_image_path'), (req, res
         });
 });
 
-router.get('/user', checkAuth, (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const decode = jwt.verify(token, "bismillah");
-  const userId = decode.userId;
-    Image.find({userId : userId})
-        .select('')
-        .exec()
-        .then(docs => {
-            const response = {
-                events: docs.map(doc => {
-                    return {
-                        event_image: doc.event_image,
-                        userId: doc.userId,
-                        request: {
-                            type: "GET",
-                            url: "http://localhost:3000/images/" + doc._id
-                        }
-                    }
-                })
-            };
-            res.status(200).json(response);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
-
+// router.get('/user', checkAuth, (req, res, next) => {
+//   const token = req.headers.authorization.split(" ")[1];
+//   const decode = jwt.verify(token, "bismillah");
+//   const userId = decode.userId;
+//     Image.find({userId : userId})
+//         .select('')
+//         .exec()
+//         .then(docs => {
+//             const response = {
+//                 events: docs.map(doc => {
+//                     return {
+//                         event_image_path: doc.event_image_path,
+//                         userId: doc.userId,
+//                         request: {
+//                             type: "GET",
+//                             url: "http://localhost:3000/uploads/" + doc.event_image_path
+//                         }
+//                     }
+//                 })
+//             };
+//             res.status(200).json(response);
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 
 

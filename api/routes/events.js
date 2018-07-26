@@ -147,8 +147,7 @@ router.get('/user', checkAuth, (req, res, next) => {
 //Get All Event
 router.get('/', (req, res, next) => {
     Event.find({status : "Accept"})
-        .select('image event_image_path')
-        .populate('image','_id')
+        .populate('image')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .exec()
@@ -165,8 +164,7 @@ router.get('/', (req, res, next) => {
                         city: doc.city,
                         userId: doc.userId,
                         categoryevent: doc.categoryevent,
-                        image: doc._id,
-                        event_image_path : doc.event_image_path,
+                        image: doc.image,
                     }
                 })
             };

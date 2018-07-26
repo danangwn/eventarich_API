@@ -10,9 +10,9 @@ const ImageSchema = mongoose.Schema({
       required: true
     },
 
-    userId: {
-      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
-    },
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
+    // },
 
     eventId: {
       type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true
