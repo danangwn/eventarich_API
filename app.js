@@ -269,7 +269,7 @@ app.use('/users', userRoutes); //Middleware
 app.use('/favorites', favoriteRoutes);
 app.use('/categoryevents', categoryeventRoutes);
 app.use('/admins', adminRoutes);
-app.use('/images', imageRoutes);
+app.use('/eventimages', imageRoutes);
 
 // app.use('/', admintRoutes);
 // app.use('/admin/login');
