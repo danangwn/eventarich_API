@@ -35,11 +35,6 @@ const EventSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
     },
 
-    status: {
-      type: String,
-      default: "waiting admin's confirmation.."
-    },
-
     categoryevent: {
       type: mongoose.Schema.Types.ObjectId, ref: 'Categoryevent', required: true
     },

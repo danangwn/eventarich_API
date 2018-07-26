@@ -6,6 +6,7 @@ const Order = require('../models/order');
 const Category = require('../models/category');
 const User = require('../models/user');
 const Event = require('../models/event');
+const Image = require('../models/image');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 var passport = require('passport');
@@ -226,30 +227,31 @@ router.post('/orders/done/',  (req, res, next) => {
 
 //GET EVENTS
 router.get('/events', (req, res, next) => {
-    Event.find()
+    Image.find()
+        .populate('eventId', 'title date_create date_event description city status')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
-        .select('')
         .exec()
         .then(docs => {
             const response = {
                 count: docs.length,
                 events: docs.map(doc => {
                     return {
-                        title: doc.title,
-                        date_create: doc.date_create,
+                        id: doc._id,
+                        event_image_path: doc.event_image_path,
+                        title : doc.title,
+                        date_create : doc.date_create,
                         date_event: doc.date_event,
-                        description: doc.description,
-                        event_image: doc.event_image,
-                        _id: doc._id,
-                        city: doc.city,
+                        description:doc.description,
+                        city:doc.city,
+                        categoryevent:doc.categoryevent,
                         userId: doc.userId,
-                        categoryevent: doc.categoryevent,
+                        eventId: doc.eventId,
                         status: doc.status,
-                        // request: {
-                        //     type: "GET",
-                        //     url: "http://localhost:3000/admins/events/" + doc._id
-                        // }
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:3000/images/" + doc._id
+                        }
                     }
                 })
             };
@@ -264,30 +266,31 @@ router.get('/events', (req, res, next) => {
 });
 
 router.get('/events/new', (req, res, next) => {
-    Event.find({status : "waiting admin's confirmation.."})
+    Image.find({status: "waiting admin's confirmation.."})
+        .populate('eventId', 'title date_create date_event description city status')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
-        .select('')
         .exec()
         .then(docs => {
             const response = {
                 count: docs.length,
                 newevents: docs.map(doc => {
                     return {
-                        title: doc.title,
-                        date_create: doc.date_create,
+                        id: doc._id,
+                        event_image_path: doc.event_image_path,
+                        title : doc.title,
+                        date_create : doc.date_create,
                         date_event: doc.date_event,
-                        description: doc.description,
-                        event_image: doc.event_image,
-                        _id: doc._id,
-                        city: doc.city,
+                        description:doc.description,
+                        city:doc.city,
+                        categoryevent:doc.categoryevent,
                         userId: doc.userId,
-                        categoryevent: doc.categoryevent,
+                        eventId: doc.eventId,
                         status: doc.status,
-                        // request: {
-                        //     type: "GET",
-                        //     url: "http://localhost:3000/admins/events/" + doc._id
-                        // }
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:3000/images/" + doc._id
+                        }
                     }
                 })
             };
@@ -310,7 +313,7 @@ router.post('/events/accept/', (req, res, next) => {
     // for (const ops of req.body) {
     //     updateOps[ops.propName] = ops.value;
     // }
-    Event.update({ _id: id }, { $set: {status : "Accept"} })
+    Image.update({ _id: id }, { $set: {status : "Accept"} })
         .exec()
         .then(result => {
             res.status(200).json({
@@ -336,7 +339,7 @@ router.post('/events/reject/', (req, res, next) => {
     // for (const ops of req.body) {
     //     updateOps[ops.propName] = ops.value;
     // }
-    Event.update({ _id: id }, { $set: {status : "Rejected"} })
+    Image.update({ _id: id }, { $set: {status : "Rejected"} })
         .exec()
         .then(result => {
             res.status(200).json({

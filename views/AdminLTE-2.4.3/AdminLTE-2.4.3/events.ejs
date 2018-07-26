@@ -203,30 +203,30 @@ table.dataTable {
                 <tbody>
                   <% for(var i=0; i < data.events.length; i++) { %>
                 <tr>
-                  <td><%- data.events[i]._id %></td>
-                  <td><%- data.events[i].title %></td>
-                  <td><%- data.events[i].date_event %></td>
-                  <td><%- data.events[i].date_create %></td>
-                
+                  <td><%- data.events[i].eventId._id %></td>
+                  <td><%- data.events[i].eventId.title %></td>
+                  <td><%- data.events[i].eventId.date_event %></td>
+                  <td><%- data.events[i].eventId.date_create %></td>
+
                   <td>
-                    <div class="comment more"> 
-                      <%- data.events[i].description %>
+                    <div class="comment more">
+                      <%- data.events[i].eventId.description %>
                     </div>
                   </td>
-                  <td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default-<%- data.events[i]._id %>">
+                  <td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default-<%- data.events[i].eventId._id %>">
                 Open
               </button>
               </td>
-                  <td><%- data.events[i].city %></td>
+                  <td><%- data.events[i].eventId.city %></td>
                   <td><%- data.events[i].status %></td>
-                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success-<%- data.events[i]._id %>">
+                  <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success-<%- data.events[i].id %>">
                 Accept
               </button>
-            <br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-<%- data.events[i]._id %>">
+            <br><br><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-<%- data.events[i].id %>">
                 Reject
               </button></td>
 
-        <div class="modal modal-default fade" id="modal-default-<%- data.events[i]._id %>">
+        <div class="modal modal-default fade" id="modal-default-<%- data.events[i].eventId._id %>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -235,7 +235,7 @@ table.dataTable {
                 <h4 class="modal-title">image</h4>
               </div>
               <div class="modal-body">
-                <img src="../../../<%- data.events[i].event_image %>" width="100%" height:"100%"></img>
+                <img src="../../../<%- data.events[i].event_image_path %>" width="100%" height:"100%"></img>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -245,8 +245,8 @@ table.dataTable {
           </div>
           <!-- /.modal-dialog -->
         </div>
-              
-        <div class="modal modal-success fade" id="modal-success-<%- data.events[i]._id %>">
+
+        <div class="modal modal-success fade" id="modal-success-<%- data.events[i].id %>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -259,7 +259,7 @@ table.dataTable {
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <a href="events/accept/<%- data.events[i]._id %>"><button href="events/accept/<%- data.events[i]._id %>" type="button" class="btn btn-outline">Save</button></a>
+                <a href="events/accept/<%- data.events[i].id %>"><button href="events/accept/<%- data.events[i].id %>" type="button" class="btn btn-outline">Save</button></a>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -267,7 +267,7 @@ table.dataTable {
           <!-- /.modal-dialog -->
         </div>
 
-      <div class="modal modal-danger fade" id="modal-danger-<%- data.events[i]._id %>">
+      <div class="modal modal-danger fade" id="modal-danger-<%- data.events[i].id %>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -280,13 +280,13 @@ table.dataTable {
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <a href="events/reject/<%- data.events[i]._id %>"><button type="button" class="btn btn-outline">Save</button></a>
+                <a href="events/reject/<%- data.events[i].id %>"><button type="button" class="btn btn-outline">Save</button></a>
               </div>
             </div>
             <!-- /.modal-content -->
           </div>
           <!-- /.modal-dialog -->
-        </div>                
+        </div>
         </tr>
                 <% } %>
                 </tbody>

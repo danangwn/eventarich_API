@@ -14,6 +14,11 @@ const ImageSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true
   },
 
+  status: {
+    type: String,
+    default: "waiting admin's confirmation.."
+  },
+
     userId: {
       type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
 

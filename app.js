@@ -111,7 +111,7 @@ function get(url) {
   })
 }
 
-app.get('/admin',ensureAuthenticated, (req, res) => {
+app.get('/admin', ensureAuthenticated,(req, res) => {
       Promise.all([
         get('http://localhost:3000/admins/orders/'),
         get('http://localhost:3000/admins/users/'),
@@ -227,7 +227,7 @@ app.get('/admin/orders/done/:id',ensureAuthenticated, (req, res) => {
 res.redirect('/admin/orders');
   });
 
-app.get('/admin/events/accept/:id',ensureAuthenticated, (req, res) => {
+app.get('/admin/events/accept/:id', ensureAuthenticated,(req, res) => {
     var body = {
       id : req.params.id
     };

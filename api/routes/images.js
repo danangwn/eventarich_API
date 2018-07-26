@@ -147,7 +147,7 @@ router.get('/user', checkAuth, (req, res, next) => {
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
     Image.find({userId : userId})
-        .populate('eventId', 'title date_create date_event description city')
+        .populate('eventId', 'title date_create date_event description city status')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .exec()
@@ -164,6 +164,7 @@ router.get('/user', checkAuth, (req, res, next) => {
                         categoryevent:doc.categoryevent,
                         userId: doc.userId,
                         eventId: doc.eventId,
+                        status: doc.status,
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/images/" + doc._id
@@ -185,8 +186,8 @@ router.get('/', checkAuth, (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
-    Image.find()
-        .populate('eventId', 'title date_create date_event description city')
+    Image.find({status: "Accept"})
+        .populate('eventId', 'title date_create date_event description city status')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .exec()
@@ -203,6 +204,7 @@ router.get('/', checkAuth, (req, res, next) => {
                         categoryevent:doc.categoryevent,
                         userId: doc.userId,
                         eventId: doc.eventId,
+                        status: doc.status,
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/images/" + doc._id
