@@ -147,7 +147,7 @@ router.get('/user', checkAuth, (req, res, next) => {
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
     Image.find({userId : userId})
-        .populate('eventId', 'title date_create date_event description city status')
+        .populate('eventId', 'title date_create date_event description city')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .exec()
@@ -187,7 +187,7 @@ router.get('/', checkAuth, (req, res, next) => {
   const decode = jwt.verify(token, "bismillah");
   const userId = decode.userId;
     Image.find({status: "Accept"})
-        .populate('eventId', 'title date_create date_event description city status')
+        .populate('eventId', 'title date_create date_event description city')
         .populate('userId', 'name')
         .populate('categoryevent', 'name')
         .exec()

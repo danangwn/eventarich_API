@@ -25,11 +25,11 @@ const adminRoutes = require('./api/routes/admins');
 const imageRoutes = require('./api/routes/images');
 
 
-// mongoose.connect('mongodb://127.0.0.1:27017');
-// mongoose.connect('mongodb://localhost:27017/eventarich_me');
-mongoose.connect(keys.mongodb.dbURI, () => {
-    console.log('connected to mongodb');
-});
+mongoose.connect('mongodb://127.0.0.1:27017');
+mongoose.connect('mongodb://localhost:27017/eventarich_me');
+// mongoose.connect(keys.mongodb.dbURI, () => {
+//     console.log('connected to mongodb');
+// });
 mongoose.Promise = global.Promise;
 
 const router = express.Router();
@@ -151,7 +151,7 @@ app.get('/admin/orders/new', ensureAuthenticated,(req, res) => {
     });
 });
 
-app.get('/admin/events', ensureAuthenticated,(req, res) => {
+app.get('/admin/events', (req, res) => {
     request.get('http://localhost:3000/admins/events/', function(err, response, body) {
         if (!err && response.statusCode == 200) {
             var locals = body ;// console.log(data);
@@ -227,7 +227,7 @@ app.get('/admin/orders/done/:id',ensureAuthenticated, (req, res) => {
 res.redirect('/admin/orders');
   });
 
-app.get('/admin/events/accept/:id', ensureAuthenticated,(req, res) => {
+app.get('/admin/events/accept/:id', (req, res) => {
     var body = {
       id : req.params.id
     };
